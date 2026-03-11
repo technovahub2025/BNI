@@ -1,8 +1,7 @@
-const DEFAULT_API_BASE = "http://localhost:5000/api";
-
-export const API_BASE =
+export const API_BASE = (
   (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env
-    ?.VITE_API_BASE_URL || DEFAULT_API_BASE;
+    ?.VITE_API_BASE_URL || ""
+).trim();
 
 type RequestOptions = {
   method?: "GET" | "POST" | "PATCH" | "DELETE";
@@ -13,6 +12,10 @@ type RequestOptions = {
 
 export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { method = "GET", body, isFormData = false, signal } = options;
+
+  if (!API_BASE) {
+    throw new Error("VITE_API_BASE_URL is not configured");
+  }
 
   const response = await fetch(`${API_BASE}${path}`, {
     method,
