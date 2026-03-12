@@ -160,7 +160,7 @@ export function PublicApplicationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.18),transparent_24%),linear-gradient(180deg,#f8fdff_0%,#f3fbff_52%,#ecf8ff_100%)] flex items-center justify-center p-6">
       <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div className="flex flex-col justify-center">
           <div className="mb-6">
@@ -175,8 +175,8 @@ export function PublicApplicationPage() {
 
           <div className="space-y-6">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center flex-shrink-0">
-                <CheckCircle className="w-6 h-6 text-indigo-600" />
+              <div className="w-12 h-12 rounded-2xl bg-cyan-100 flex items-center justify-center flex-shrink-0 shadow-[0_10px_25px_rgba(34,211,238,0.18)]">
+                <CheckCircle className="w-6 h-6 text-sky-600" />
               </div>
               <div>
                 <h3 className="font-semibold text-slate-900 mb-1">Automated Workflows</h3>
@@ -187,8 +187,8 @@ export function PublicApplicationPage() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center flex-shrink-0">
-                <CheckCircle className="w-6 h-6 text-indigo-600" />
+              <div className="w-12 h-12 rounded-2xl bg-cyan-100 flex items-center justify-center flex-shrink-0 shadow-[0_10px_25px_rgba(34,211,238,0.18)]">
+                <CheckCircle className="w-6 h-6 text-sky-600" />
               </div>
               <div>
                 <h3 className="font-semibold text-slate-900 mb-1">Smart Lead Scoring</h3>
@@ -199,8 +199,8 @@ export function PublicApplicationPage() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center flex-shrink-0">
-                <CheckCircle className="w-6 h-6 text-indigo-600" />
+              <div className="w-12 h-12 rounded-2xl bg-cyan-100 flex items-center justify-center flex-shrink-0 shadow-[0_10px_25px_rgba(34,211,238,0.18)]">
+                <CheckCircle className="w-6 h-6 text-sky-600" />
               </div>
               <div>
                 <h3 className="font-semibold text-slate-900 mb-1">Seamless Onboarding</h3>
@@ -213,7 +213,7 @@ export function PublicApplicationPage() {
         </div>
 
         <div>
-          <Card className="shadow-xl">
+          <Card className="border-sky-100 bg-white/92 shadow-[0_24px_70px_rgba(8,145,178,0.14)] backdrop-blur">
             <CardContent className="p-8">
               <div className="mb-6">
                 <h2 className="text-2xl font-semibold text-slate-900 mb-2">
@@ -262,7 +262,7 @@ export function PublicApplicationPage() {
                   <Textarea id="goals" rows={4} placeholder="Tell us about what you're looking to achieve..." required value={form.goals} disabled={isSubmitted || isLoadingStatus} onChange={(event) => setForm((current) => ({ ...current, goals: event.target.value }))} />
                 </div>
 
-                <Button className="w-full gap-2 bg-indigo-600 hover:bg-indigo-700 h-12 text-base" type="submit" disabled={isSubmitted || isLoadingStatus || isSubmitting}>
+                <Button className="h-12 w-full gap-2 bg-sky-500 text-base text-white hover:bg-sky-600 shadow-[0_14px_32px_rgba(14,165,233,0.26)]" type="submit" disabled={isSubmitted || isLoadingStatus || isSubmitting}>
                   <Send className="w-5 h-5" />
                   {isSubmitted ? "Form Submitted" : isSubmitting ? "Submitting..." : "Submit Application"}
                 </Button>
@@ -277,7 +277,7 @@ export function PublicApplicationPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-slate-600">
               Already have an account?{" "}
-              <a href="/" className="text-indigo-600 hover:text-indigo-700 font-medium">
+              <a href="/" className="font-medium text-sky-600 hover:text-sky-700">
                 Sign in here
               </a>
             </p>

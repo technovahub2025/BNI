@@ -15,13 +15,13 @@ export function TopBar() {
   const workspaces = settings?.workspaces?.length ? settings.workspaces : ["Main Workspace"];
 
   return (
-    <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6">
+    <header className="h-16 bg-white/90 backdrop-blur border-b border-sky-100 flex items-center justify-between px-6">
       <div className="flex items-center gap-4 flex-1 max-w-xl">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sky-400" />
           <Input
             placeholder="Search leads, automations, templates..."
-            className="pl-10 bg-slate-50 border-slate-200"
+            className="pl-10 border-sky-100 bg-sky-50/70 focus-visible:border-sky-300"
           />
         </div>
       </div>
@@ -29,9 +29,9 @@ export function TopBar() {
       <div className="flex items-center gap-3">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="gap-2">
+            <Button variant="outline" className="gap-2 border-sky-100 bg-white text-slate-700 hover:bg-sky-50 hover:text-sky-700">
               {settings?.workspaceName || "Main Workspace"}
-              <ChevronDown className="w-4 h-4 text-slate-400" />
+              <ChevronDown className="w-4 h-4 text-sky-400" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -41,7 +41,7 @@ export function TopBar() {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Button className="gap-2 bg-indigo-600 hover:bg-indigo-700">
+        <Button className="gap-2 bg-sky-500 text-white hover:bg-sky-600 shadow-[0_10px_24px_rgba(14,165,233,0.24)]">
           <Plus className="w-4 h-4" />
           Create
         </Button>
@@ -54,7 +54,7 @@ export function TopBar() {
         </Button>
 
         <Avatar className="w-9 h-9 cursor-pointer">
-          <AvatarFallback className="bg-indigo-600 text-white text-sm">
+          <AvatarFallback className="bg-sky-500 text-white text-sm">
             {settings?.operator?.initials || "AD"}
           </AvatarFallback>
         </Avatar>

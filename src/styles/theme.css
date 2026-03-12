@@ -2,43 +2,65 @@
 
 :root {
   --font-size: 16px;
-  --background: #ffffff;
-  --foreground: oklch(0.145 0 0);
+  --background: #f4fbff;
+  --foreground: #0f172a;
   --card: #ffffff;
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: #0f172a;
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: #030213;
+  --popover-foreground: #0f172a;
+  --primary: #0891b2;
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.95 0.0058 264.53);
-  --secondary-foreground: #030213;
-  --muted: #ececf0;
-  --muted-foreground: #717182;
-  --accent: #e9ebef;
-  --accent-foreground: #030213;
+  --secondary: #e0f2fe;
+  --secondary-foreground: #0f172a;
+  --muted: #eef8ff;
+  --muted-foreground: #5b6b82;
+  --accent: #d8f3ff;
+  --accent-foreground: #0f172a;
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
-  --border: rgba(0, 0, 0, 0.1);
+  --border: rgba(8, 145, 178, 0.14);
   --input: transparent;
-  --input-background: #f3f3f5;
-  --switch-background: #cbced4;
+  --input-background: #f8fcff;
+  --switch-background: #bae6fd;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --ring: #38bdf8;
+  --chart-1: #06b6d4;
+  --chart-2: #0ea5e9;
+  --chart-3: #2563eb;
+  --chart-4: #22c55e;
+  --chart-5: #f59e0b;
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: #030213;
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: #0f172a;
+  --sidebar-foreground: #e0f2fe;
+  --sidebar-primary: #06b6d4;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #172554;
+  --sidebar-accent-foreground: #e0f2fe;
+  --sidebar-border: rgba(125, 211, 252, 0.14);
+  --sidebar-ring: #38bdf8;
+
+  /* Brand palette aligned to technovahub.in */
+  --color-indigo-50: #ecfeff;
+  --color-indigo-100: #cffafe;
+  --color-indigo-200: #a5f3fc;
+  --color-indigo-300: #67e8f9;
+  --color-indigo-400: #22d3ee;
+  --color-indigo-500: #06b6d4;
+  --color-indigo-600: #0891b2;
+  --color-indigo-700: #0e7490;
+  --color-indigo-800: #155e75;
+  --color-indigo-900: #164e63;
+  --color-slate-50: #f4fbff;
+  --color-slate-100: #e6f6ff;
+  --color-slate-200: #c7e9f8;
+  --color-slate-300: #94cddd;
+  --color-slate-400: #5f8ea3;
+  --color-slate-500: #46687b;
+  --color-slate-600: #325062;
+  --color-slate-700: #1f3349;
+  --color-slate-800: #14243a;
+  --color-slate-900: #0b1730;
 }
 
 .dark {
@@ -126,6 +148,9 @@
 
   body {
     @apply bg-background text-foreground;
+    background-image:
+      radial-gradient(circle at top right, rgba(34, 211, 238, 0.16), transparent 28%),
+      linear-gradient(180deg, #f8fdff 0%, #f4fbff 48%, #eef8ff 100%);
   }
 
   /**

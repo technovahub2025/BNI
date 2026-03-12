@@ -31,9 +31,9 @@ export function Sidebar() {
   const { settings } = useWorkspace();
 
   return (
-    <aside className="w-64 bg-slate-900 flex flex-col">
-      <div className="p-6 border-b border-slate-800">
-        <h1 className="text-xl font-semibold text-white">LeadOS</h1>
+    <aside className="w-64 border-r border-sky-100 bg-white/95 backdrop-blur flex flex-col shadow-[0_12px_40px_rgba(8,145,178,0.08)]">
+      <div className="p-6 border-b border-sky-100 bg-gradient-to-r from-cyan-50 via-sky-50 to-white">
+        <h1 className="text-xl font-semibold text-slate-900">LeadOS</h1>
       </div>
       
       <nav className="flex-1 p-4 space-y-1">
@@ -43,10 +43,10 @@ export function Sidebar() {
             to={item.to}
             end={item.to === "/"}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors ${
+              `flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors ${
                 isActive
-                  ? "bg-indigo-600 text-white"
-                  : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                  ? "bg-sky-500 text-white shadow-[0_10px_24px_rgba(14,165,233,0.24)]"
+                  : "text-slate-600 hover:bg-sky-50 hover:text-sky-700"
               }`
             }
           >
@@ -57,16 +57,16 @@ export function Sidebar() {
       </nav>
 
       <div className="p-4">
-        <Card className="bg-slate-800 border-slate-700 p-4">
+        <Card className="border-sky-100 bg-gradient-to-br from-cyan-50 to-white p-4 shadow-none">
           <div className="flex items-center gap-3">
             <Avatar className="w-9 h-9">
-              <AvatarFallback className="bg-indigo-600 text-white text-sm">
+              <AvatarFallback className="bg-sky-500 text-white text-sm">
                 <User className="w-4 h-4" />
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-white truncate">{settings?.operator?.name || "Operator View"}</p>
-              <p className="text-xs text-slate-400 truncate">{settings?.operator?.email || "admin@leadops.io"}</p>
+              <p className="text-sm font-medium text-slate-900 truncate">{settings?.operator?.name || "Operator View"}</p>
+              <p className="text-xs text-slate-500 truncate">{settings?.operator?.email || "admin@leadops.io"}</p>
             </div>
           </div>
         </Card>

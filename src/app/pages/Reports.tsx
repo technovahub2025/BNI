@@ -30,7 +30,7 @@ type ReportsResponse = {
   };
 };
 
-const funnelColors = ["#4f46e5", "#6366f1", "#818cf8", "#a5b4fc", "#c7d2fe"];
+const funnelColors = ["#0891b2", "#06b6d4", "#38bdf8", "#7dd3fc", "#bae6fd"];
 
 export function ReportsPage() {
   const [data, setData] = useState<ReportsResponse | null>(null);
@@ -120,11 +120,11 @@ export function ReportsPage() {
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={replyTrendData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="date" stroke="#64748b" fontSize={12} />
-                <YAxis stroke="#64748b" fontSize={12} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#c7e9f8" />
+                <XAxis dataKey="date" stroke="#46687b" fontSize={12} />
+                <YAxis stroke="#46687b" fontSize={12} />
                 <Tooltip />
-                <Line type="monotone" dataKey="replies" stroke="#4f46e5" strokeWidth={2} dot={{ fill: "#4f46e5", r: 4 }} activeDot={{ r: 6 }} />
+                <Line type="monotone" dataKey="replies" stroke="#0891b2" strokeWidth={2} dot={{ fill: "#0891b2", r: 4 }} activeDot={{ r: 6 }} />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
@@ -137,9 +137,9 @@ export function ReportsPage() {
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={funnelData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis type="number" stroke="#64748b" fontSize={12} />
-                <YAxis dataKey="stage" type="category" stroke="#64748b" fontSize={12} width={100} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#c7e9f8" />
+                <XAxis type="number" stroke="#46687b" fontSize={12} />
+                <YAxis dataKey="stage" type="category" stroke="#46687b" fontSize={12} width={100} />
                 <Tooltip />
                 <Bar dataKey="count" radius={[0, 4, 4, 0]}>
                   {funnelData.map((entry, index) => (

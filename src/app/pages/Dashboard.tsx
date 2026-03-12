@@ -158,11 +158,11 @@ export function DashboardPage() {
           <CardContent>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={pipelineData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="stage" stroke="#64748b" fontSize={12} />
-                <YAxis stroke="#64748b" fontSize={12} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#c7e9f8" />
+                <XAxis dataKey="stage" stroke="#46687b" fontSize={12} />
+                <YAxis stroke="#46687b" fontSize={12} />
                 <Tooltip />
-                <Bar dataKey="count" fill="#4f46e5" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="count" fill="#0891b2" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
