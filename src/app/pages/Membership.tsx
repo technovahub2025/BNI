@@ -35,7 +35,7 @@ export function MembershipPage() {
     return () => controller.abort();
   }, []);
 
-  const applicationLink = `${window.location.origin}/apply`;
+  const applicationLink = `${window.location.origin}/bni/apply`;
   const applications = useMemo(
     () =>
       leads
