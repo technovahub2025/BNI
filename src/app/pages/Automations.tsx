@@ -26,6 +26,9 @@ type ReplyWorkflowStep = {
   triggerValue: string;
   nextTemplate: string;
   nextTemplateVariables: TemplateVariableBinding[];
+  followUpDelayValue: number;
+  followUpDelayUnit: "minutes" | "hours" | "days";
+  followUpMessage: string;
 };
 
 type Workflow = {
@@ -43,6 +46,8 @@ type Workflow = {
     template3DelayUnit: "minutes" | "hours" | "days";
     membershipTemplate: string;
     applicationSubmittedTemplate: string;
+    meetingTemplate: string;
+    meetingReminderTemplate: string;
     replyKeywords: string[];
     keywordReplyScore: number;
   };
@@ -237,6 +242,9 @@ export function AutomationsPage() {
                   defaultTemplateName,
                   templateOptions[0]?.variables || []
                 ),
+                followUpDelayValue: 0,
+                followUpDelayUnit: "minutes",
+                followUpMessage: "",
               },
             ],
           }
@@ -247,7 +255,7 @@ export function AutomationsPage() {
   const handleReplyFlowStepChange = (
     stepId: string,
     key: keyof ReplyWorkflowStep,
-    value: string | TemplateVariableBinding[]
+    value: string | number | TemplateVariableBinding[]
   ) => {
     setReplyFlowForm((current) =>
       current
@@ -579,6 +587,62 @@ export function AutomationsPage() {
                             </Select>
                           </div>
 
+                          <div className="rounded-lg border border-slate-200 p-4 space-y-4">
+                            <div>
+                              <h5 className="text-sm font-medium text-slate-900">No Reply Follow-up</h5>
+                              <p className="text-xs text-slate-500 mt-1">
+                                After this template is sent, wait and auto-send a reminder if the lead does not reply.
+                              </p>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="space-y-2">
+                                <Label>Reminder Delay</Label>
+                                <div className="flex gap-3">
+                                  <Input
+                                    type="number"
+                                    min="0"
+                                    value={String(step.followUpDelayValue || 0)}
+                                    onChange={(event) =>
+                                      handleReplyFlowStepChange(
+                                        step.id,
+                                        "followUpDelayValue",
+                                        Math.max(0, Number(event.target.value) || 0)
+                                      )
+                                    }
+                                  />
+                                  <Select
+                                    value={step.followUpDelayUnit}
+                                    onValueChange={(value: "minutes" | "hours" | "days") =>
+                                      handleReplyFlowStepChange(step.id, "followUpDelayUnit", value)
+                                    }
+                                  >
+                                    <SelectTrigger className="w-32">
+                                      <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="minutes">Minutes</SelectItem>
+                                      <SelectItem value="hours">Hours</SelectItem>
+                                      <SelectItem value="days">Days</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                              </div>
+
+                              <div className="space-y-2">
+                                <Label>Reminder Message</Label>
+                                <Input
+                                  placeholder="Please select your meeting date and time."
+                                  value={step.followUpMessage}
+                                  onChange={(event) =>
+                                    handleReplyFlowStepChange(step.id, "followUpMessage", event.target.value)
+                                  }
+                                />
+                              </div>
+                            </div>
+
+                          </div>
+
                           {step.nextTemplateVariables.length ? (
                             <div className="rounded-lg border border-slate-200 p-4 space-y-3">
                               <h5 className="text-sm font-medium text-slate-900">Template Variables</h5>
@@ -792,6 +856,83 @@ export function AutomationsPage() {
                     <SelectContent>
                       {templateOptions.map((template) => (
                         <SelectItem key={template.id || template._id || template.name} value={template.name}>{template.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-4">
+                <h3 className="font-medium text-slate-900">Conversion Templates</h3>
+
+                <div className="space-y-2">
+                  <Label>Application Form Link Template</Label>
+                  <Select
+                    value={form?.membershipTemplate || ""}
+                    onValueChange={(value) =>
+                      setForm((current) => (current ? { ...current, membershipTemplate: value } : current))
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select application form template" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {templateOptions.map((template) => (
+                        <SelectItem key={template.id || template._id || template.name} value={template.name}>
+                          {template.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-slate-500">
+                    This template is sent after a lead qualifies and needs the application form link.
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Application Submitted Template</Label>
+                  <Select
+                    value={form?.applicationSubmittedTemplate || ""}
+                    onValueChange={(value) =>
+                      setForm((current) =>
+                        current ? { ...current, applicationSubmittedTemplate: value } : current
+                      )
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select post-submit template" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {templateOptions.map((template) => (
+                        <SelectItem key={template.id || template._id || template.name} value={template.name}>
+                          {template.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-slate-500">
+                    This template is sent after the membership form is submitted successfully.
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Meeting Confirmation Template</Label>
+                  <Select
+                    value={form?.meetingTemplate || ""}
+                    onValueChange={(value) =>
+                      setForm((current) => (current ? { ...current, meetingTemplate: value } : current))
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select meeting confirmation template" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {templateOptions.map((template) => (
+                        <SelectItem key={template.id || template._id || template.name} value={template.name}>
+                          {template.name}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>

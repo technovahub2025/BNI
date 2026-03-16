@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { Upload, Workflow, Download, History, Search, MoreVertical, Play, Trash2 } from "lucide-react";
+import { Upload, Workflow, Download, History, Search, MoreVertical, Play, Square, Trash2 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Input } from "../components/ui/input";
@@ -75,6 +75,11 @@ export function LeadsPage() {
 
   const handleStartAutomation = async (leadId: string) => {
     await apiPost(`/workflows/start/${leadId}`);
+    refreshLeads();
+  };
+
+  const handleStopAutomation = async (leadId: string) => {
+    await apiPost(`/workflows/stop/${leadId}`);
     refreshLeads();
   };
 
@@ -225,10 +230,17 @@ export function LeadsPage() {
                             <Search className="w-4 h-4 mr-2" />
                             View
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleStartAutomation(lead._id)}>
-                            <Play className="w-4 h-4 mr-2" />
-                            Start Automation
-                          </DropdownMenuItem>
+                          {lead.activeRun ? (
+                            <DropdownMenuItem onClick={() => handleStopAutomation(lead._id)}>
+                              <Square className="w-4 h-4 mr-2" />
+                              Stop Automation
+                            </DropdownMenuItem>
+                          ) : (
+                            <DropdownMenuItem onClick={() => handleStartAutomation(lead._id)}>
+                              <Play className="w-4 h-4 mr-2" />
+                              Start Automation
+                            </DropdownMenuItem>
+                          )}
                           <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(lead._id)}>
                             <Trash2 className="w-4 h-4 mr-2" />
                             Delete
@@ -265,5 +277,9 @@ function formatLeadStatus(status?: string | null) {
 
 function formatStage(stage?: string | null) {
   if (!stage) return "-";
-  return stage.charAt(0).toUpperCase() + stage.slice(1);
+  return stage
+    .split("_")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
 }

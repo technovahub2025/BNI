@@ -76,8 +76,8 @@ export function TemplatesPage() {
     <div className="p-8">
       <div className="mb-8">
         <div>
-          <h1 className="text-3xl font-semibold text-slate-900">WhatsApp Template Manager</h1>
-          <p className="text-slate-500 mt-1">Create and manage message templates</p>
+          <h1 className="text-3xl font-semibold text-slate-900">WhatsApp Template Library</h1>
+          <p className="text-slate-500 mt-1">Review synced Meta templates and send live tests</p>
         </div>
       </div>
 
@@ -131,7 +131,7 @@ export function TemplatesPage() {
               <div className="space-y-2">
                 <Label>Variables</Label>
                 <Input placeholder="e.g., name, company" value={variables} readOnly />
-                <p className="text-xs text-slate-500">Use comma-separated placeholders</p>
+                <p className="text-xs text-slate-500">Template variables are read from Meta</p>
               </div>
 
               <div className="space-y-2">
@@ -143,7 +143,7 @@ export function TemplatesPage() {
               </div>
 
               <Button className="w-full bg-indigo-600 hover:bg-indigo-700" onClick={handleSave}>
-                Refresh Templates
+                Refresh Synced Templates
               </Button>
             </CardContent>
           </Card>

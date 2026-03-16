@@ -49,7 +49,7 @@ export function OnboardingPage() {
     <div className="p-8">
       <div className="mb-8">
         <h1 className="text-3xl font-semibold text-slate-900">Onboarding</h1>
-        <p className="text-slate-500 mt-1">Track member onboarding progress</p>
+        <p className="text-slate-500 mt-1">Track member onboarding progress from current lead-stage data</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

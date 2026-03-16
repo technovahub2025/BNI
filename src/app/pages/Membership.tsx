@@ -22,6 +22,15 @@ type Lead = {
   };
 };
 
+const configuredBasename = (
+  (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env?.VITE_APP_BASENAME ||
+  "/bni"
+).trim();
+const normalizedBasename =
+  !configuredBasename || configuredBasename === "/"
+    ? ""
+    : `/${configuredBasename.replace(/^\/+|\/+$/g, "")}`;
+
 export function MembershipPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
 
@@ -35,7 +44,7 @@ export function MembershipPage() {
     return () => controller.abort();
   }, []);
 
-  const applicationLink = `${window.location.origin}/bni/apply`;
+  const applicationLink = `${window.location.origin}${normalizedBasename}/apply`;
   const applications = useMemo(
     () =>
       leads

@@ -47,6 +47,13 @@ type Template = {
   active: boolean;
 };
 
+type LeadNote = {
+  _id: string;
+  authorName: string;
+  body: string;
+  createdAt: string;
+};
+
 export function InboxPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [threads, setThreads] = useState<InboxThread[]>([]);
@@ -54,6 +61,7 @@ export function InboxPage() {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [draft, setDraft] = useState("");
   const [notes, setNotes] = useState("");
+  const [savedNotes, setSavedNotes] = useState<LeadNote[]>([]);
 
   const selectedLeadId = searchParams.get("leadId");
 
@@ -82,8 +90,14 @@ export function InboxPage() {
 
     const controller = new AbortController();
 
-    apiGet<ThreadResponse>(`/inbox/${selectedLeadId}`, controller.signal)
-      .then(setThreadData)
+    Promise.all([
+      apiGet<ThreadResponse>(`/inbox/${selectedLeadId}`, controller.signal),
+      apiGet<LeadNote[]>(`/leads/${selectedLeadId}/notes`, controller.signal),
+    ])
+      .then(([thread, notesResponse]) => {
+        setThreadData(thread);
+        setSavedNotes(notesResponse);
+      })
       .catch(() => undefined);
 
     return () => controller.abort();
@@ -117,6 +131,16 @@ export function InboxPage() {
     setThreadData(refreshed);
   };
 
+  const handleSaveNote = async () => {
+    if (!selectedLead || !notes.trim()) return;
+
+    const nextNote = await apiPost<LeadNote>(`/leads/${selectedLead._id}/notes`, {
+      body: notes.trim(),
+    });
+    setSavedNotes((current) => [nextNote, ...current]);
+    setNotes("");
+  };
+
   return (
     <div className="p-8">
       <div className="mb-8">
@@ -124,14 +148,14 @@ export function InboxPage() {
         <p className="text-slate-500 mt-1">Manage and respond to lead replies</p>
       </div>
 
-      <div className="grid grid-cols-12 gap-6 h-[calc(100vh-220px)]">
-        <div className="col-span-3">
+      <div className="grid h-[calc(100vh-220px)] grid-cols-12 gap-6 overflow-hidden">
+        <div className="col-span-3 min-h-0">
           <Card className="h-full">
             <CardHeader>
               <CardTitle className="text-lg">Unread Replies ({unreadCount})</CardTitle>
             </CardHeader>
-            <CardContent className="p-0">
-              <ScrollArea className="h-[calc(100vh-320px)]">
+            <CardContent className="min-h-0 p-0">
+              <ScrollArea className="h-full">
                 {threads.map((reply, index) => {
                   const leadId = reply.leadId?._id || reply._id;
                   const isSelected = leadId === selectedLeadId;
@@ -161,7 +185,7 @@ export function InboxPage() {
           </Card>
         </div>
 
-        <div className="col-span-6">
+        <div className="col-span-6 min-h-0">
           <Card className="h-full flex flex-col">
             <CardHeader className="border-b border-slate-200">
               <div className="flex items-center gap-3">
@@ -176,19 +200,21 @@ export function InboxPage() {
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="flex-1 p-0 flex flex-col">
-              <ScrollArea className="flex-1 p-6">
-                <div className="space-y-4">
-                  {(threadData?.messages || []).map((message) => (
-                    <div key={message._id} className={`flex ${message.direction === "inbound" ? "justify-start" : "justify-end"}`}>
-                      <div className={`max-w-[70%] rounded-lg p-3 ${message.direction === "inbound" ? "bg-white border border-slate-200" : "bg-indigo-600 text-white"}`}>
-                        <p className="text-sm whitespace-pre-line">{message.body || "Template message sent"}</p>
-                        <p className={`text-xs mt-2 ${message.direction === "inbound" ? "text-slate-400" : "text-indigo-200"}`}>
-                          {new Date(message.createdAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
-                        </p>
+            <CardContent className="flex min-h-0 flex-1 flex-col p-0">
+              <ScrollArea className="min-h-0 flex-1">
+                <div className="p-6">
+                  <div className="space-y-4">
+                    {(threadData?.messages || []).map((message) => (
+                      <div key={message._id} className={`flex ${message.direction === "inbound" ? "justify-start" : "justify-end"}`}>
+                        <div className={`max-w-[70%] rounded-lg p-3 ${message.direction === "inbound" ? "bg-white border border-slate-200" : "bg-indigo-600 text-white"}`}>
+                          <p className="text-sm whitespace-pre-line">{message.body || "Template message sent"}</p>
+                          <p className={`text-xs mt-2 ${message.direction === "inbound" ? "text-slate-400" : "text-indigo-200"}`}>
+                            {new Date(message.createdAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </ScrollArea>
               <div className="border-t border-slate-200 p-4">
@@ -203,8 +229,9 @@ export function InboxPage() {
           </Card>
         </div>
 
-        <div className="col-span-3">
-          <div className="space-y-6">
+        <div className="col-span-3 min-h-0">
+          <ScrollArea className="h-full pr-2">
+            <div className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Lead Info</CardTitle>
@@ -259,10 +286,27 @@ export function InboxPage() {
               </CardHeader>
               <CardContent>
                 <Textarea rows={4} placeholder="Add notes about this lead..." className="mb-3" value={notes} onChange={(event) => setNotes(event.target.value)} />
-                <Button variant="outline" className="w-full">Save Note</Button>
+                <Button variant="outline" className="mb-4 w-full" onClick={handleSaveNote} disabled={!selectedLead || !notes.trim()}>
+                  Save Note
+                </Button>
+                <div className="space-y-3">
+                  {savedNotes.length ? (
+                    savedNotes.slice(0, 5).map((note) => (
+                      <div key={note._id} className="rounded-lg border border-slate-200 p-3">
+                        <p className="text-sm text-slate-700 whitespace-pre-line">{note.body}</p>
+                        <p className="mt-2 text-xs text-slate-400">
+                          {note.authorName} • {formatRelativeTime(note.createdAt)}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-xs text-slate-500">No notes saved for this lead yet.</p>
+                  )}
+                </div>
               </CardContent>
             </Card>
-          </div>
+            </div>
+          </ScrollArea>
         </div>
       </div>
     </div>
