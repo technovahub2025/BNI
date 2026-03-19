@@ -18,7 +18,7 @@ import { useWorkspace } from "../../context/WorkspaceContext";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/leads", label: "Leads", icon: Users },
+  { to: "/leads", label: "Workspace", icon: Users },
   { to: "/automations", label: "Automations", icon: Workflow },
   { to: "/templates", label: "Templates", icon: MessageSquare },
   { to: "/inbox", label: "Inbox", icon: Inbox },
@@ -35,7 +35,19 @@ export function Sidebar() {
   return (
     <aside className="w-64 border-r border-sky-100 bg-white/95 backdrop-blur flex flex-col shadow-[0_12px_40px_rgba(8,145,178,0.08)]">
       <div className="p-6 border-b border-sky-100 bg-gradient-to-r from-cyan-50 via-sky-50 to-white">
-        <h1 className="text-xl font-semibold text-slate-900">LeadOS</h1>
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 rounded-2xl bg-sky-600 text-white font-semibold grid place-items-center shadow-[0_8px_18px_rgba(2,132,199,0.25)]">
+            BNI
+          </div>
+          <div className="min-w-0">
+            <h1 className="text-lg font-semibold text-slate-900 tracking-tight leading-tight">
+              Visitor
+              <span className="block text-sky-700">Automation</span>
+            </h1>
+            {/* <p className="text-xs text-slate-500">Chapter Operations</p> */}
+          </div>
+        </div>
+        <div className="mt-4 h-px bg-gradient-to-r from-sky-200 via-sky-100 to-transparent" />
       </div>
       
       <nav className="flex-1 p-4 space-y-1">
